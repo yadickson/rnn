@@ -1,4 +1,7 @@
-class Layer:
+import numpy as np
+from scipy import stats
+
+class Layer():
   def __init__(self, number_of_neurons = 1, activation_function = None, previous_layer = Layer(), round = 3):
     self.number_of_neurons = number_of_neurons
     self.activation_function = activation_function
