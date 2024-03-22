@@ -1,4 +1,4 @@
-from src.layer import Layer
+from ..src.layer import Layer
 
 
 class TestLayer:
