@@ -1,5 +1,5 @@
 import unittest
-from ..src.layer import Layer
+from layer import Layer
 
 
 class TestLayer(unittest.TestCase):
