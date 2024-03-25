@@ -1,5 +1,5 @@
 from unittest import TestCase
-from rnn.layer import Layer
+from layer import Layer
 
 
 class TestLayer(TestCase):
