@@ -1,10 +1,12 @@
-import numpy as np
-from scipy import stats
+class Layer:
+    def __init__(self):
+        self.input = None
+        self.output = None
 
-class Layer(object):
-  def __init__(self, number_of_neurons = 1, previous_number_of_neurons = 1, activation_function = None, round = 3):
-    self.number_of_neurons = number_of_neurons
-    self.activation_function = activation_function
-    self.previous_number_of_neurons = previous_number_of_neurons
-    self.bias = np.round(stats.truncnorm.rvs(-1, 1, loc=0, scale=1, size= self.number_of_neurons).reshape(1,self.number_of_neurons),round)
-    self.weights = np.round(stats.truncnorm.rvs(-1, 1, loc=0, scale=1, size= self.number_of_neurons * self.previous_number_of_neurons).reshape(self.previous_number_of_neurons,self.number_of_neurons),round)
+    # computes the output Y of a layer for a given input X
+    def forward_propagation(self, input_data):
+        raise NotImplementedError
+
+    # computes dE/dX for a given dE/dY (and update parameters if any)
+    def backward_propagation(self, output_error, learning_rate):
+        raise NotImplementedError

@@ -3,3 +3,4 @@ scipy
 matplotlib
 flake8
 pytest
+Faker

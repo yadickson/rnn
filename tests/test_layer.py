@@ -3,6 +3,12 @@ from rnn.layer import Layer
 
 
 class TestLayer(TestCase):
-  def test_should_return_one_number_of_neurons_when_create_layer_with_empty_parameters(self):
-    layer = Layer()
-    self.assertEquels(1, layer.number_of_neurons)
+
+    def setUp(self):
+        self.layer = Layer()
+
+    def test_should_throws_not_implement_exception_when_method_forward_propagation_is_called(self):
+        self.assertRaises(NotImplementedError, self.layer.forward_propagation, None)
+
+    def test_should_throws_not_implement_exception_when_method_backward_propagation_is_called(self):
+        self.assertRaises(NotImplementedError, self.layer.backward_propagation, None, None)
