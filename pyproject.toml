@@ -16,6 +16,8 @@ authors=["yadickson soto <yadickson@gmail.com>"]
 description="rnn"
 version="1.0.0"
 
+[tool.poetry.dependencies]
+pytest = {version = "^8.1.1", python = ">=3.10"}
 [tool.poetry-exec-plugin.commands]
 format = "black src/ tests/"
 lint = "flake8 src/ tests/ --max-line-length=127 && mypy src/ tests/"
