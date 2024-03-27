@@ -34,3 +34,6 @@ jobs:
     - name: Test
       run: |
         poetry exec test
+    - name: Coverage
+      run: |
+        poetry exec test:coverage
