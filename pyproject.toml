@@ -3,9 +3,25 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "red-neuronal-basica"
+name = "rnn"
 
 [tool.pytest.ini_options]
 addopts = [
     "--import-mode=importlib",
 ]
+
+[tool.poetry]
+name="rnn"
+authors=["yadickson soto <yadickson@gmail.com>"]
+description="rnn"
+version="1.0.0"
+
+[tool.poetry-exec-plugin.commands]
+format = "black src/ tests/"
+lint = "flake8 src/ tests/ --max-line-length=127 && mypy src/ tests/"
+test = "python -m pytest"
+"test:coverage" = "python -m pytest --cov-report html:reports/coverage --cov-report lcov:reports/lcov.info --cov=src"
+"test:mutation" = "mut.py --target src/ --unit-test tests/ --runner 'pytest' --report-html reports/mutation --show-mutants --colored-output"
+
+[tool.mypy]
+disable_error_code = "import-untyped"

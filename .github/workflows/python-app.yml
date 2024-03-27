@@ -36,4 +36,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        python -m pytest
+        python -m pytest --cov-report html:reports/coverage --cov-report lcov:reports/lcov.info --cov=src
+    - name: Mutation test with mutpy
+      run: |
+        mut.py --target src/ --unit-test tests/ --runner "pytest" --report-html reports/mutation --show-mutants --colored-output

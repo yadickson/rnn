@@ -1,6 +1,13 @@
+poetry
+poetry-exec-plugin
 numpy
 scipy
 matplotlib
 flake8
+mypy
+black
 pytest
+pytest-cov
+coverage>=6.3
+mutpy
 Faker
