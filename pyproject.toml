@@ -1,29 +1,40 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[project]
-name = "rnn"
-
-[tool.pytest.ini_options]
-addopts = [
-    "--import-mode=importlib",
-]
-
 [tool.poetry]
-name="rnn"
-authors=["yadickson soto <yadickson@gmail.com>"]
-description="rnn"
-version="1.0.0"
+name = "rnn"
+version = "1.0.0"
+description = "rnn"
+authors = ["Yadickson Soto <yadickson@gmail.com>"]
+readme = "README.md"
 
 [tool.poetry.dependencies]
-pytest = {version = "^8.1.1", python = ">=3.10"}
+python = "^3.10"
+numpy = "^1.26.4"
+scipy = "^1.12.0"
+
+[tool.poetry.group.dev.dependencies]
+poetry-exec-plugin = "^0.3.6"
+pytest = "^8.1.1"
+matplotlib = "^3.8.3"
+flake8 = "^7.0.0"
+mypy = "^1.9.0"
+black = "^24.3.0"
+pytest-cov = "^5.0.0"
+coverage = "^7.4.4"
+MutPy = "^0.6.1"
+Faker = "^24.4.0"
+
 [tool.poetry-exec-plugin.commands]
 format = "black src/ tests/"
 lint = "flake8 src/ tests/ --max-line-length=127 && mypy src/ tests/"
 test = "python -m pytest"
 "test:coverage" = "python -m pytest --cov-report html:reports/coverage --cov-report lcov:reports/lcov.info --cov=src"
 "test:mutation" = "mut.py --target src/ --unit-test tests/ --runner 'pytest' --report-html reports/mutation --show-mutants --colored-output"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib"]
 
 [tool.mypy]
 disable_error_code = "import-untyped"
