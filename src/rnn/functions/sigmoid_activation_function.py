@@ -1,5 +1,6 @@
-from rnn.functions.activation_function import ActivationFunction
 import numpy as np
+
+from rnn.functions.activation_function import ActivationFunction
 
 
 class SigmoidActivationFunction(ActivationFunction):
@@ -8,7 +9,7 @@ class SigmoidActivationFunction(ActivationFunction):
         super().__init__()
 
     def value(self, input_data):
-        return np.round(1 / (1 + np.exp(-input_data)), 5)
+        return 1 / (1 + np.exp(-input_data))
 
     def derived(self, input_data):
-        return input_data * (1 - input_data)
+        return self.value(input_data) * (1 - self.value(input_data))

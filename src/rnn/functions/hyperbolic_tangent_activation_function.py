@@ -1,5 +1,6 @@
-from rnn.functions.activation_function import ActivationFunction
 import numpy as np
+
+from rnn.functions.activation_function import ActivationFunction
 
 
 class HyperbolicTangentActivationFunction(ActivationFunction):

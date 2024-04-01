@@ -4,6 +4,15 @@
 
 Red neuronal basica con python
 
+
+```
+source venv/bin/activate
+```
+
+```
+pip install poetry poetry-exec-plugin
+```
+
 ```
 poetry install
 ```

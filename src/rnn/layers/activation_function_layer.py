@@ -1,5 +1,5 @@
-from rnn.layers.layer import Layer
 from rnn.functions.activation_function import ActivationFunction
+from rnn.layers.layer import Layer
 
 
 class ActivationFunctionLayer(Layer):
@@ -13,5 +13,5 @@ class ActivationFunctionLayer(Layer):
         self.output = self.function.value(self.input)
         return self.output
 
-    def backward_propagation(self, output_error, learning_rate):
+    def backward_propagation(self, output_error):
         return self.function.derived(self.input) * output_error

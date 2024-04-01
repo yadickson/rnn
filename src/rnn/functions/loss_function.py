@@ -1,6 +1,6 @@
 class LossFunction:
-    def value(self, real_value, output_desired):
+    def value(self, real_value, calculated_value):
         raise NotImplementedError
 
-    def derived(self, real_value, output_desired):
+    def derived(self, real_value, calculated_value):
         raise NotImplementedError

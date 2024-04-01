@@ -31,6 +31,9 @@ jobs:
     - name: Lint
       run: |
         poetry exec lint
+    - name: Typing
+      run: |
+        poetry exec typing
     - name: Test
       run: |
         poetry exec test
