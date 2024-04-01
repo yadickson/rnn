@@ -24,7 +24,7 @@ isort = '^5.13.2'
 
 [tool.poetry-exec-plugin.commands]
 format = "black src/ tests/ --line-length=120 --preview && isort src/ tests/"
-lint = "flake8 src/ tests/ --max-line-length=120"
+lint = "flake8 src/ tests/ --max-line-length=120 --ignore=E203"
 typing = "mypy src/ tests/"
 test = "python -m pytest"
 "test:coverage" = "python -m pytest --cov-report html:reports/coverage --cov-report lcov:reports/lcov.info --cov=src"
