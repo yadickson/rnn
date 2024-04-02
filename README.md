@@ -4,6 +4,9 @@
 
 Red neuronal basica con python
 
+```
+python -m venv .
+```
 
 ```
 source venv/bin/activate

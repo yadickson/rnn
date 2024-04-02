@@ -6,10 +6,11 @@ from rnn.layers.layer import Layer
 
 class FullyConnectedLayer(Layer):
 
-    def __init__(self, input_size: int, output_size: int, initializer: InitializeData, learning_rate: float):
+    def __init__(self, initializer: InitializeData, learning_rate: float = 0.01):
         super().__init__()
-        self.weights = initializer.create(input_size=input_size, output_size=output_size)
-        self.bias = initializer.create(input_size=1, output_size=output_size)
+        self.trained_values = initializer.get_next_trained_data()
+        self.weights = self.trained_values.weights
+        self.bias = self.trained_values.bias
         self.learning_rate = learning_rate
 
     def forward_propagation(self, input_data):
@@ -23,3 +24,6 @@ class FullyConnectedLayer(Layer):
         self.weights -= self.learning_rate * weights_error
         self.bias -= self.learning_rate * output_error
         return input_error
+
+    def get_trained_values(self):
+        return self.trained_values.get_json_values()

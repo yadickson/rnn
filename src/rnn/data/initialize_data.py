@@ -1,6 +1,6 @@
-from numpy import ndarray
+from rnn.data.trained_data import TrainedData
 
 
 class InitializeData:
-    def create(self, input_size, output_size) -> ndarray:
+    def get_next_trained_data(self) -> TrainedData:
         raise NotImplementedError

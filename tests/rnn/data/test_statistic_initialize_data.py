@@ -1,8 +1,10 @@
 from unittest import TestCase
+from unittest.mock import MagicMock
 
-import faker.generator
+import numpy as np
 from faker import Faker
 
+from rnn.data.statistic_data import StatisticData
 from rnn.data.statistic_initialize_data import StatisticInitializeData
 
 
@@ -10,32 +12,44 @@ class TestStatisticInitializeData(TestCase):
 
     def setUp(self):
         self.faker = Faker()
-        self.initializer = StatisticInitializeData()
 
-    def test_should_return_empty_array_when_method_create_is_called_with_both_params_zero(
-        self,
-    ):
-        result = self.initializer.create(input_size=0, output_size=0)
-        self.assertEqual(0, result.size)
+        self.input_size = self.faker.random.randint(20, 30)
+        self.output_size = self.faker.random.randint(40, 50)
+        self.generator_stub = MagicMock(StatisticData)
 
-    def test_should_return_array_with_one_element_when_method_create_is_called_with_both_params_one(
-        self,
-    ):
-        result = self.initializer.create(input_size=1, output_size=1)
-        self.assertEqual(1, result.size)
+        self.initializer = StatisticInitializeData(
+            input_size=self.input_size, output_size=self.output_size, generator=self.generator_stub
+        )
 
-    def test_should_return_array_with_one_element_and_greater_that_minus_one(self):
-        result = self.initializer.create(input_size=1, output_size=1)
-        self.assertGreaterEqual(1, result[0][-1])
+    def test_should_check_input_size_is_assigned(self):
+        self.assertEqual(self.input_size, self.initializer.input_size)
 
-    def test_should_return_array_with_one_element_and_less_that_one(self):
-        result = self.initializer.create(input_size=1, output_size=1)
-        self.assertLessEqual(result[0][-1], 1)
+    def test_should_check_output_is_assigned(self):
+        self.assertEqual(self.output_size, self.initializer.output_size)
 
-    def test_should_return_array_when_method_create_is_called_with_input_and_output_values(
-        self,
-    ):
-        input_size = faker.generator.random.randint(10, 20)
-        output_size = faker.generator.random.randint(30, 40)
-        result = self.initializer.create(input_size=input_size, output_size=output_size)
-        self.assertEqual(input_size * output_size, result.size)
+    def test_should_check_generator_is_assigned(self):
+        self.assertEqual(self.generator_stub, self.initializer.generator)
+
+    def test_should_check_generator_was_called_two_times(self):
+        self.initializer.get_next_trained_data()
+
+        self.assertEqual(2, self.generator_stub.create.call_count)
+
+        calls = self.generator_stub.method_calls
+
+        self.assertTrue(calls[0] == ("create", {"input_size": self.input_size, "output_size": self.output_size}))
+        self.assertTrue(calls[1] == ("create", {"input_size": 1, "output_size": self.output_size}))
+
+    def test_should_return_trained_values(self):
+
+        weights = np.random.rand(20, 30)
+        bias = np.random.rand(10, 20)
+
+        values = [weights, bias]
+
+        self.generator_stub.create.side_effect = values
+
+        result = self.initializer.get_next_trained_data()
+
+        self.assertEqual(weights.tolist(), result.weights.tolist())
+        self.assertEqual(bias.tolist(), result.bias.tolist())

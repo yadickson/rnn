@@ -1,4 +1,5 @@
 import math
+from typing import List
 from unittest import TestCase
 
 import matplotlib.pyplot as plt
@@ -15,6 +16,7 @@ from rnn.functions.relu_activation_function import ReluActivationFunction
 from rnn.functions.sigmoid_activation_function import SigmoidActivationFunction
 from rnn.layers.activation_function_layer import ActivationFunctionLayer
 from rnn.layers.fully_connected_layer import FullyConnectedLayer
+from rnn.layers.layer import Layer
 from rnn.network import Network
 
 
@@ -39,6 +41,8 @@ class TestNetworkCircleShapeTraining(TestCase):
     count = None
     X = None
     Y = None
+
+    layers: List[Layer] = []
     network = None
     errors = None
 
@@ -52,21 +56,21 @@ class TestNetworkCircleShapeTraining(TestCase):
         data_ok = circle(count=cls.count, Ri=2, Ro=0)
 
         cls.X = np.concatenate([data_not_ok, data_ok])
-        cls.Y = [0] * cls.count + [1] * cls.count
+        cls.Y = [[0]] * cls.count + [[1]] * cls.count
 
-        input_training = cls.X
+        input_training = [[data] for data in cls.X]
         output_training = [[data] for data in cls.Y]
 
-        layers = [
-            FullyConnectedLayer(2, 4, StatisticInitializeData(), learning_rate),
+        cls.layers = [
+            FullyConnectedLayer(StatisticInitializeData(2, 4), learning_rate),
             ActivationFunctionLayer(HyperbolicTangentActivationFunction()),
-            FullyConnectedLayer(4, 8, StatisticInitializeData(), learning_rate),
+            FullyConnectedLayer(StatisticInitializeData(4, 8), learning_rate),
             ActivationFunctionLayer(ReluActivationFunction()),
-            FullyConnectedLayer(8, 1, StatisticInitializeData(), learning_rate),
+            FullyConnectedLayer(StatisticInitializeData(8, 1), learning_rate),
             ActivationFunctionLayer(SigmoidActivationFunction()),
         ]
 
-        cls.network = Network(layers=layers, loss_function=MeanSquaredErrorLossFunction())
+        cls.network = Network(layers=cls.layers, loss_function=MeanSquaredErrorLossFunction())
         cls.errors = cls.network.training(input_training, output_training, 5000)
 
     @classmethod
@@ -84,7 +88,12 @@ class TestNetworkCircleShapeTraining(TestCase):
         plt.show()
 
     def test_should_check_process_true_when_input_is_zero_zero(self):
-        self.assertGreaterEqual(self.network.process([0, 0])[-1], [0.8])
+        self.assertGreaterEqual(self.network.process([[0, 0]])[-1], [[0.9]])
 
-    def test_should_check_process_false_when_input_is_seven_seven(self):
-        self.assertLess(self.network.process([4, 4])[-1], [0.2])
+    def test_should_check_process_false_when_input_is_four_four(self):
+        self.assertLess(self.network.process([[4, 4]])[-1], [[0.1]])
+
+    def test_layers(self):
+        training = [trained.get_trained_values() for trained in self.layers]
+        filter(None, training)
+        print(training)

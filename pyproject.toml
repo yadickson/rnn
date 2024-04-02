@@ -21,6 +21,8 @@ coverage = "^7.4.4"
 MutPy = "^0.6.1"
 Faker = "^24.4.0"
 isort = '^5.13.2'
+keras = '^3.1.1'
+tensorflow = '^2.16.1'
 
 [tool.poetry-exec-plugin.commands]
 format = "black src/ tests/ --line-length=120 --preview && isort src/ tests/"

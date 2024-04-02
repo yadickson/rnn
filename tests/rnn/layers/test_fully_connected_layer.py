@@ -5,6 +5,7 @@ import numpy as np
 from faker import Faker
 
 from rnn.data.initialize_data import InitializeData
+from rnn.data.trained_data import TrainedData
 from rnn.layers.fully_connected_layer import FullyConnectedLayer
 
 
@@ -14,22 +15,19 @@ class TestFullyConnectedLayer(TestCase):
 
         self.faker = Faker()
 
-        self.input_size = self.faker.random.randint(20, 30)
-        self.output_size = self.faker.random.randint(40, 50)
-        self.learning_rate = self.faker.random.random()
-
         self.initializer_stub = MagicMock(InitializeData)
+        self.trained_data_stub = MagicMock(TrainedData)
+        self.learning_rate = self.faker.random.random()
 
         self.weights = np.random.rand(20, 30)
         self.bias = np.random.rand(10, 20)
 
-        values = [self.weights, self.bias]
+        self.trained_data_stub.weights = self.weights
+        self.trained_data_stub.bias = self.bias
 
-        self.initializer_stub.create.side_effect = values
+        self.initializer_stub.get_next_trained_data.return_value = self.trained_data_stub
 
         self.layer = FullyConnectedLayer(
-            self.input_size,
-            self.output_size,
             self.initializer_stub,
             self.learning_rate,
         )
@@ -49,13 +47,8 @@ class TestFullyConnectedLayer(TestCase):
     def test_should_check_weights_array_is_assigned(self):
         self.assertEqual(self.weights.tolist(), self.layer.weights.tolist())
 
-    def test_should_check_creation_layer_bias_and_weights_are_assigned(self):
-        self.assertEqual(2, self.initializer_stub.create.call_count)
-
-        calls = self.initializer_stub.create.mock_calls
-
-        calls[0].assert_called_with(input_size=self.input_size, output_size=self.output_size)
-        calls[1].assert_called_with(input_size=1, output_size=self.output_size)
+    def test_should_check_get_next_trained_data_was_called_one_time(self):
+        self.assertEqual(1, self.initializer_stub.get_next_trained_data.call_count)
 
     def test_should_check_forward_propagation_parameters_for_activation_function_method(self):
         self.layer.weights = [[1, 2, 3, 4], [5, 6, 7, 8]]
@@ -66,3 +59,12 @@ class TestFullyConnectedLayer(TestCase):
         result = self.layer.forward_propagation(input_data)
 
         self.assertEqual([[1110, 1420, 1730, 2040]], result.tolist())
+
+    def test_should_check_trained_values_none(self):
+        json = self.faker.random.random()
+
+        self.trained_data_stub.get_json_values.return_value = json
+
+        result = self.layer.get_trained_values()
+
+        self.assertEqual(json, result)

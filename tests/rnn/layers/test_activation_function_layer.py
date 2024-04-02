@@ -94,3 +94,8 @@ class TestActivationFunctionLayer(TestCase):
         self.layer.backward_propagation(output_error)
 
         self.assertEqual(None, self.layer.output)
+
+    def test_should_check_trained_values_none(self):
+        result = self.layer.get_trained_values()
+
+        self.assertEqual(None, result)

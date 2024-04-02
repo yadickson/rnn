@@ -24,10 +24,10 @@ class Network:
         for i in range(epochs):
             error = 0
             for si in range(samples):
-                output = np.array(self.process(input_data=[input_training[si]]))
+                output = np.array(self.process(input_data=input_training[si]))
 
-                error = self.loss_function.value([output_training[si]], output)
-                error_training = self.loss_function.derived([output_training[si]], output)
+                error = self.loss_function.value(output_training[si], output)
+                error_training = self.loss_function.derived(output_training[si], output)
 
                 for layer in reversed(self.layers):
                     error_training = layer.backward_propagation(error_training)
