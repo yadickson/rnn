@@ -22,7 +22,7 @@ class FullyConnectedLayer(Layer):
         input_error = output_error @ self.weights.T
         weights_error = np.array(self.input).T @ output_error
         self.weights -= self.learning_rate * weights_error
-        self.bias -= self.learning_rate * output_error
+        self.bias -= self.learning_rate * output_error.mean()
         return input_error
 
     def get_trained_values(self):

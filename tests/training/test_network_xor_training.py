@@ -15,7 +15,7 @@ from rnn.layers.layer import Layer
 from rnn.network import Network
 
 
-@pytest.mark.skipif(reason="never run")
+#@pytest.mark.skipif(reason="never run")
 class TestNetworkXorTraining(TestCase):
 
     layers: List[Layer] = []
