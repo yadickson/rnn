@@ -59,8 +59,9 @@ class TestActivationFunctionLayer(TestCase):
 
         self.assertEqual(1, self.activation_function_stub.value.call_count)
 
-        calls = self.activation_function_stub.value.mock_calls
-        calls[0].assert_called_with(input_data=input_data)
+        calls = self.activation_function_stub.method_calls
+
+        self.assertTrue(calls[0] == ("value", {"input_data": input_data}))
 
     def test_should_check_backward_propagation_result_value(self):
         output_error = np.random.rand(100, 400)
@@ -72,14 +73,17 @@ class TestActivationFunctionLayer(TestCase):
         self.assertEqual(result.tolist(), (self.derived.tolist() * output_error).tolist())
 
     def test_should_check_backward_propagation_parameters_for_activation_function_method(self):
+        input_value = np.random.rand(100, 400)
         output_error = np.random.rand(100, 400)
 
+        self.layer.input = input_value
         self.layer.backward_propagation(output_error)
 
         self.assertEqual(1, self.activation_function_stub.derived.call_count)
 
-        calls = self.activation_function_stub.derived.mock_calls
-        calls[0].assert_called_with(input_data=output_error)
+        calls = self.activation_function_stub.method_calls
+
+        self.assertTrue(calls[0] == ("derived", {"input_data": input_value}))
 
     def test_should_check_input_data_is_not_assigned_when_call_backward_propagation(self):
         output_error = np.random.rand(100, 400)

@@ -40,8 +40,9 @@ class TestNetwork(TestCase):
 
         self.assertEqual(1, self.first_layer_stub.forward_propagation.call_count)
 
-        calls = self.first_layer_stub.forward_propagation.mock_calls
-        calls[0].assert_called_with(input_data=input_data)
+        calls = self.first_layer_stub.method_calls
+
+        self.assertTrue(calls[0] == ("forward_propagation", {"input_data": input_data}))
 
     def test_should_check_second_layer_forward_propagation(self):
 
@@ -51,8 +52,9 @@ class TestNetwork(TestCase):
 
         self.assertEqual(1, self.second_layer_stub.forward_propagation.call_count)
 
-        calls = self.second_layer_stub.forward_propagation.mock_calls
-        calls[0].assert_called_with(input_data=self.first_forward)
+        calls = self.second_layer_stub.method_calls
+
+        self.assertTrue(calls[0] == ("forward_propagation", {"input_data": self.first_forward}))
 
     def test_should_check_process_response_last_element(self):
         input_data = np.random.rand(20, 30)

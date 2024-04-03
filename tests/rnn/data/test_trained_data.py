@@ -21,6 +21,6 @@ class TestTrainedData(TestCase):
         self.assertEqual(self.bias.tolist(), self.generator.bias.tolist())
 
     def test_should_return_json_string(self):
-        result = self.generator.get_json_values()
-        expected = '"weights": {}, "bias": {}'.format(self.weights.tolist(), self.bias.tolist())
-        self.assertEqual("{" + expected + "}", result)
+        result = self.generator.get_values()
+        expected = {"weights": self.weights.tolist(), "bias": self.bias.tolist()}
+        self.assertEqual(expected, result)

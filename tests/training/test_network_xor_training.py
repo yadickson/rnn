@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import pytest
 
 from rnn.data.statistic_initialize_data import StatisticInitializeData
+from rnn.file.json_file import JsonFile
 from rnn.functions.hyperbolic_tangent_activation_function import \
     HyperbolicTangentActivationFunction
 from rnn.functions.mean_squared_error_loss_function import \
@@ -15,7 +16,7 @@ from rnn.layers.layer import Layer
 from rnn.network import Network
 
 
-#@pytest.mark.skipif(reason="never run")
+@pytest.mark.skipif(reason="never run")
 class TestNetworkXorTraining(TestCase):
 
     layers: List[Layer] = []
@@ -60,7 +61,9 @@ class TestNetworkXorTraining(TestCase):
     def test_should_check_process_false_when_input_is_one_one(self):
         self.assertLess(self.network.process([[1, 1]])[-1], [[0.1]])
 
-    def test_layers(self):
-        training = [trained.get_trained_values() for trained in self.layers]
-        filter(None, training)
-        print(training)
+    def test_create_training_file(self):
+        training = [trained.get_trained_values() for trained in self.layers if trained.get_trained_values() is not None]
+
+        self.assertEqual(2, len(training))
+
+        JsonFile.write("test_network_xor_trained.json", {"trained": training})

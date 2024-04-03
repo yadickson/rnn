@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from rnn.data.memory_initialize_data import MemoryInitializeData
-from rnn.data.trained_data import TrainedData
+from rnn.file.json_file import JsonFile
 from rnn.functions.hyperbolic_tangent_activation_function import \
     HyperbolicTangentActivationFunction
 from rnn.functions.mean_squared_error_loss_function import \
@@ -18,23 +18,7 @@ class TestNetworkXorTrained(TestCase):
     @classmethod
     def setUpClass(cls):
 
-        layer_trained_one = TrainedData(
-            [
-                [0.5814903207629254, -1.6489887269219625, 1.826684882027024],
-                [-0.39140716789806207, -1.541773004411403, 1.93996803542501],
-            ],
-            [[-0.5141473620586524, 2.4670041845295994, -0.6142652324350433]],
-        )
-
-        layer_trained_two = TrainedData(
-            [[0.2948348030089838], [2.18801507187804], [2.2444522305402215]],
-            [[-0.788982573645013]],
-        )
-
-        trained_list = [
-            layer_trained_one,
-            layer_trained_two,
-        ]
+        trained_list = JsonFile.read("test_network_xor_trained.json").trained
 
         initializer = MemoryInitializeData(trained_list)
 

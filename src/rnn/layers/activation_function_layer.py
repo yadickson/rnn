@@ -10,11 +10,11 @@ class ActivationFunctionLayer(Layer):
 
     def forward_propagation(self, input_data):
         self.input = input_data
-        self.output = self.function.value(self.input)
+        self.output = self.function.value(input_data=self.input)
         return self.output
 
     def backward_propagation(self, output_error):
-        return self.function.derived(self.input) * output_error
+        return self.function.derived(input_data=self.input) * output_error
 
     def get_trained_values(self):
         return None

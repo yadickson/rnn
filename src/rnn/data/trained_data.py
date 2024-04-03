@@ -1,7 +1,13 @@
-import json
+from dataclasses import dataclass
+
+from numpy import ndarray
 
 
+@dataclass
 class TrainedData:
+
+    weights: ndarray
+    bias: ndarray
 
     def __init__(self, weights, bias):
         self.weights = weights
@@ -12,6 +18,3 @@ class TrainedData:
             "weights": self.weights.tolist(),
             "bias": self.bias.tolist(),
         }
-
-    def get_json_values(self):
-        return json.dumps(self.get_values())

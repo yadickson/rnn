@@ -5,7 +5,7 @@
 Red neuronal basica con python
 
 ```
-python -m venv .
+python -m venv venv
 ```
 
 ```

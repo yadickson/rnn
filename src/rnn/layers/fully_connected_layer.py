@@ -26,4 +26,4 @@ class FullyConnectedLayer(Layer):
         return input_error
 
     def get_trained_values(self):
-        return self.trained_values.get_json_values()
+        return self.trained_values.get_values()

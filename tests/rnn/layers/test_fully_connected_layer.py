@@ -61,10 +61,10 @@ class TestFullyConnectedLayer(TestCase):
         self.assertEqual([[1110, 1420, 1730, 2040]], result.tolist())
 
     def test_should_check_trained_values_none(self):
-        json = self.faker.random.random()
+        object_reference = self.faker.random.random()
 
-        self.trained_data_stub.get_json_values.return_value = json
+        self.trained_data_stub.get_values.return_value = object_reference
 
         result = self.layer.get_trained_values()
 
-        self.assertEqual(json, result)
+        self.assertEqual(object_reference, result)

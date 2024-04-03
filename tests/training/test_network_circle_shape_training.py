@@ -8,6 +8,7 @@ import pytest
 from scipy import stats
 
 from rnn.data.statistic_initialize_data import StatisticInitializeData
+from rnn.file.json_file import JsonFile
 from rnn.functions.hyperbolic_tangent_activation_function import \
     HyperbolicTangentActivationFunction
 from rnn.functions.mean_squared_error_loss_function import \
@@ -50,7 +51,7 @@ class TestNetworkCircleShapeTraining(TestCase):
     def setUpClass(cls):
 
         learning_rate = 0.1
-        cls.count = 100
+        cls.count = 500
 
         data_not_ok = circle(count=cls.count, Ri=2, Ro=2)
         data_ok = circle(count=cls.count, Ri=2, Ro=0)
@@ -93,7 +94,9 @@ class TestNetworkCircleShapeTraining(TestCase):
     def test_should_check_process_false_when_input_is_four_four(self):
         self.assertLess(self.network.process([[4, 4]])[-1], [[0.1]])
 
-    def test_layers(self):
-        training = [trained.get_trained_values() for trained in self.layers]
-        filter(None, training)
-        print(training)
+    def test_create_training_file(self):
+        training = [trained.get_trained_values() for trained in self.layers if trained.get_trained_values() is not None]
+
+        self.assertEqual(3, len(training))
+
+        JsonFile.write("test_network_circle_shape_trained.json", {"trained": training})
