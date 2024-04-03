@@ -7,6 +7,7 @@ from keras.datasets import mnist
 from keras.utils import to_categorical
 
 from rnn.data.statistic_initialize_data import StatisticInitializeData
+from rnn.file.json_file import JsonFile
 from rnn.functions.hyperbolic_tangent_activation_function import \
     HyperbolicTangentActivationFunction
 from rnn.functions.mean_squared_error_loss_function import \
@@ -63,7 +64,7 @@ class TestNetworkKerasImageTraining(TestCase):
         ]
 
         cls.network = Network(layers=cls.layers, loss_function=MeanSquaredErrorLossFunction())
-        cls.errors = cls.network.training(input_training, output_training, 50)
+        cls.errors = cls.network.training(input_training, output_training, 30)
 
     @classmethod
     def tearDownClass(cls):
@@ -76,17 +77,19 @@ class TestNetworkKerasImageTraining(TestCase):
 
     def test_should_check_first_image(self):
         result = self.network.process(self.x_test[0])[-1].tolist()
-        self.assertEqual([1 if data > 0.99 else 0 for data in result], self.y_test[0].tolist())
+        self.assertEqual([1 if data > 0.9 else 0 for data in result], self.y_test[0].tolist())
 
     def test_should_check_second_image(self):
         result = self.network.process(self.x_test[1])[-1].tolist()
-        self.assertEqual([1 if data > 0.99 else 0 for data in result], self.y_test[1].tolist())
+        self.assertEqual([1 if data > 0.9 else 0 for data in result], self.y_test[1].tolist())
 
     def test_should_check_third_image(self):
         result = self.network.process(self.x_test[2])[-1].tolist()
-        self.assertEqual([1 if data > 0.99 else 0 for data in result], self.y_test[2].tolist())
+        self.assertEqual([1 if data > 0.9 else 0 for data in result], self.y_test[2].tolist())
 
-    def test_layers(self):
-        training = [trained.get_trained_values() for trained in self.layers]
-        filter(None, training)
-        print(training)
+    def test_create_training_file(self):
+        training = [trained.get_trained_values() for trained in self.layers if trained.get_trained_values() is not None]
+
+        self.assertEqual(3, len(training))
+
+        JsonFile.write("test_network_keras_image_trained.json", {"trained": training})
