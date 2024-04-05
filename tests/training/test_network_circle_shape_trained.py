@@ -1,3 +1,4 @@
+import os
 from unittest import TestCase
 
 from rnn.data.memory_initialize_data import MemoryInitializeData
@@ -19,8 +20,10 @@ class TestNetworkCircleShapeTrained(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        current_directory = os.path.dirname(os.path.realpath(__file__))
+        current_file_trained = os.path.join(current_directory, "test_network_circle_shape_trained.json")
 
-        trained_list = JsonFile.read("test_network_circle_shape_trained.json").trained
+        trained_list = JsonFile.read(current_file_trained).trained
 
         initializer = MemoryInitializeData(trained_list)
 
@@ -38,8 +41,23 @@ class TestNetworkCircleShapeTrained(TestCase):
     def test_should_check_process_true_when_input_is_zero_zero(self):
         self.assertGreaterEqual(self.network.process([[0, 0]])[-1], [[0.9]])
 
+    def test_should_check_process_true_when_input_is_one_one(self):
+        self.assertGreaterEqual(self.network.process([[1, 1]])[-1], [[0.9]])
+
+    def test_should_check_process_true_when_input_is_minus_one_one(self):
+        self.assertGreaterEqual(self.network.process([[-1, 1]])[-1], [[0.9]])
+
+    def test_should_check_process_true_when_input_is_one_minus_one(self):
+        self.assertGreaterEqual(self.network.process([[1, -1]])[-1], [[0.9]])
+
     def test_should_check_process_false_when_input_is_two_two(self):
         self.assertLess(self.network.process([[2, 2]])[-1], [[0.1]])
 
+    def test_should_check_process_false_when_input_is_two_minus_two(self):
+        self.assertLess(self.network.process([[2, -2]])[-1], [[0.1]])
+
     def test_should_check_process_false_when_input_is_four_four(self):
         self.assertLess(self.network.process([[4, 4]])[-1], [[0.1]])
+
+    def test_should_check_process_false_when_input_is_minus_four_four(self):
+        self.assertLess(self.network.process([[-4, 0]])[-1], [[0.1]])

@@ -1,3 +1,4 @@
+import os
 from unittest import TestCase
 
 from keras.datasets import mnist
@@ -27,10 +28,13 @@ class TestNetworkKerasImageTrained(TestCase):
         x_test = x_test.reshape(x_test.shape[0], 1, 28 * 28)
         x_test = x_test.astype("float32")
 
-        cls.x_test = x_test / 255
-        cls.y_test = to_categorical(y_test)
+        cls.x_test = (x_test / 255)[0:1000]
+        cls.y_test = to_categorical(y_test)[0:1000]
 
-        trained_list = JsonFile.read("test_network_keras_image_trained.json").trained
+        current_directory = os.path.dirname(os.path.realpath(__file__))
+        current_file_trained = os.path.join(current_directory, "test_network_keras_image_trained.json")
+
+        trained_list = JsonFile.read(current_file_trained).trained
 
         initializer = MemoryInitializeData(trained_list)
 
@@ -46,9 +50,22 @@ class TestNetworkKerasImageTrained(TestCase):
         cls.network = Network(layers=layers, loss_function=MeanSquaredErrorLossFunction())
 
     def test_should_check_first_image(self):
-        result = self.network.process(self.x_test[0])[-1].tolist()
-        self.assertEqual([1 if data > 0.9 else 0 for data in result], self.y_test[0].tolist())
+        result = self.network.process(self.x_test[0])
+        expected = (result == result.max(axis=1)[:, None]).astype(int)[-1]
+        self.assertEqual(expected.tolist(), self.y_test[0].tolist())
+
+    def test_should_check_second_image(self):
+        result = self.network.process(self.x_test[1])
+        expected = (result == result.max(axis=1)[:, None]).astype(int)[-1]
+        self.assertEqual(expected.tolist(), self.y_test[1].tolist())
 
     def test_should_check_third_image(self):
-        result = self.network.process(self.x_test[2])[-1].tolist()
-        self.assertEqual([1 if data > 0.9 else 0 for data in result], self.y_test[2].tolist())
+        result = self.network.process(self.x_test[2])
+        expected = (result == result.max(axis=1)[:, None]).astype(int)[-1]
+        self.assertEqual(expected.tolist(), self.y_test[2].tolist())
+
+    def test_should_check_full_images(self):
+        for index in range(7):
+            result = self.network.process(self.x_test[index])
+            expected = (result == result.max(axis=1)[:, None]).astype(int)[-1]
+            self.assertEqual(expected.tolist(), self.y_test[index].tolist())

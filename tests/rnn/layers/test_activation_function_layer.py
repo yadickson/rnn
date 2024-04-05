@@ -66,18 +66,20 @@ class TestActivationFunctionLayer(TestCase):
     def test_should_check_backward_propagation_result_value(self):
         output_error = np.random.rand(100, 400)
         input_data = np.random.rand(100, 200)
+        learning_rate = np.random.rand(100, 100)
 
         self.layer.input = input_data
-        result = self.layer.backward_propagation(output_error)
+        result = self.layer.backward_propagation(output_error, learning_rate)
 
         self.assertEqual(result.tolist(), (self.derived.tolist() * output_error).tolist())
 
     def test_should_check_backward_propagation_parameters_for_activation_function_method(self):
         input_value = np.random.rand(100, 400)
         output_error = np.random.rand(100, 400)
+        learning_rate = np.random.rand(100, 300)
 
         self.layer.input = input_value
-        self.layer.backward_propagation(output_error)
+        self.layer.backward_propagation(output_error, learning_rate)
 
         self.assertEqual(1, self.activation_function_stub.derived.call_count)
 
@@ -87,15 +89,17 @@ class TestActivationFunctionLayer(TestCase):
 
     def test_should_check_input_data_is_not_assigned_when_call_backward_propagation(self):
         output_error = np.random.rand(100, 400)
+        learning_rate = np.random.rand(100, 100)
 
-        self.layer.backward_propagation(output_error)
+        self.layer.backward_propagation(output_error, learning_rate)
 
         self.assertEqual(None, self.layer.input)
 
     def test_should_check_output_data_is_not_assigned_when_call_backward_propagation(self):
         output_error = np.random.rand(100, 400)
+        learning_rate = np.random.rand(100, 100)
 
-        self.layer.backward_propagation(output_error)
+        self.layer.backward_propagation(output_error, learning_rate)
 
         self.assertEqual(None, self.layer.output)
 

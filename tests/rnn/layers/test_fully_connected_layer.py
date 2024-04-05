@@ -17,7 +17,6 @@ class TestFullyConnectedLayer(TestCase):
 
         self.initializer_stub = MagicMock(InitializeData)
         self.trained_data_stub = MagicMock(TrainedData)
-        self.learning_rate = self.faker.random.random()
 
         self.weights = np.random.rand(20, 30)
         self.bias = np.random.rand(10, 20)
@@ -27,19 +26,13 @@ class TestFullyConnectedLayer(TestCase):
 
         self.initializer_stub.get_next_trained_data.return_value = self.trained_data_stub
 
-        self.layer = FullyConnectedLayer(
-            self.initializer_stub,
-            self.learning_rate,
-        )
+        self.layer = FullyConnectedLayer(self.initializer_stub)
 
     def test_should_check_input_is_assigned_with_none(self):
         self.assertEqual(None, self.layer.input)
 
     def test_should_check_output_is_assigned_with_none(self):
         self.assertEqual(None, self.layer.output)
-
-    def test_should_check_learning_rate_is_assigned(self):
-        self.assertEqual(self.learning_rate, self.layer.learning_rate)
 
     def test_should_check_bias_array_is_assigned(self):
         self.assertEqual(self.bias.tolist(), self.layer.bias.tolist())

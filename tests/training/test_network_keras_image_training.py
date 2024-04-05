@@ -1,3 +1,4 @@
+import os
 from typing import List
 from unittest import TestCase
 
@@ -7,6 +8,7 @@ from keras.datasets import mnist
 from keras.utils import to_categorical
 
 from rnn.data.statistic_initialize_data import StatisticInitializeData
+from rnn.data.training_data import TrainingData
 from rnn.file.json_file import JsonFile
 from rnn.functions.hyperbolic_tangent_activation_function import \
     HyperbolicTangentActivationFunction
@@ -18,22 +20,19 @@ from rnn.layers.layer import Layer
 from rnn.network import Network
 
 
-@pytest.mark.skipif(reason="never run")
+@pytest.mark.skipif(os.environ.get("TRAINING_TEST") is None, reason="run only in training mode")
 class TestNetworkKerasImageTraining(TestCase):
 
     layers: List[Layer] = []
-
-    x_test = None
-    y_test = None
 
     network = None
     errors = None
 
     @classmethod
     def setUpClass(cls):
-        learning_rate = 0.1
+
         # load MNIST from server
-        (x_train, y_train), (x_test, y_test) = mnist.load_data()
+        (x_train, y_train), (_, _) = mnist.load_data()
 
         # training data : 60000 samples
         # reshape and normalize input data
@@ -44,27 +43,30 @@ class TestNetworkKerasImageTraining(TestCase):
         # e.g. number 3 will become [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
         y_train = to_categorical(y_train)
 
-        # same for test data : 10000 samples
-        x_test = x_test.reshape(x_test.shape[0], 1, 28 * 28)
-        x_test = x_test.astype("float32")
-
-        cls.x_test = x_test / 255
-        cls.y_test = to_categorical(y_test)
-
-        input_training = x_train
-        output_training = y_train
+        input_training = x_train[0:1000]
+        output_training = y_train[0:1000]
 
         cls.layers = [
-            FullyConnectedLayer(StatisticInitializeData(28 * 28, 50), learning_rate),
+            FullyConnectedLayer(StatisticInitializeData(28 * 28, 50)),
             ActivationFunctionLayer(HyperbolicTangentActivationFunction()),
-            FullyConnectedLayer(StatisticInitializeData(50, 20), learning_rate),
+            FullyConnectedLayer(StatisticInitializeData(50, 20)),
             ActivationFunctionLayer(HyperbolicTangentActivationFunction()),
-            FullyConnectedLayer(StatisticInitializeData(20, 10), learning_rate),
+            FullyConnectedLayer(StatisticInitializeData(20, 10)),
             ActivationFunctionLayer(HyperbolicTangentActivationFunction()),
         ]
 
         cls.network = Network(layers=cls.layers, loss_function=MeanSquaredErrorLossFunction())
-        cls.errors = cls.network.training(input_training, output_training, 30)
+        cls.errors = cls.network.training(
+            input_training,
+            output_training,
+            [
+                TrainingData(10, 0.1),
+                TrainingData(10, 0.01),
+                TrainingData(5, 0.001),
+                TrainingData(4, 0.0001),
+                TrainingData(3, 0.00001),
+            ],
+        )
 
     @classmethod
     def tearDownClass(cls):
@@ -75,21 +77,12 @@ class TestNetworkKerasImageTraining(TestCase):
         plt.plot(epoch, cls.errors)
         plt.show()
 
-    def test_should_check_first_image(self):
-        result = self.network.process(self.x_test[0])[-1].tolist()
-        self.assertEqual([1 if data > 0.9 else 0 for data in result], self.y_test[0].tolist())
-
-    def test_should_check_second_image(self):
-        result = self.network.process(self.x_test[1])[-1].tolist()
-        self.assertEqual([1 if data > 0.9 else 0 for data in result], self.y_test[1].tolist())
-
-    def test_should_check_third_image(self):
-        result = self.network.process(self.x_test[2])[-1].tolist()
-        self.assertEqual([1 if data > 0.9 else 0 for data in result], self.y_test[2].tolist())
-
     def test_create_training_file(self):
         training = [trained.get_trained_values() for trained in self.layers if trained.get_trained_values() is not None]
 
         self.assertEqual(3, len(training))
 
-        JsonFile.write("test_network_keras_image_trained.json", {"trained": training})
+        current_directory = os.path.dirname(os.path.realpath(__file__))
+        current_file_trained = os.path.join(current_directory, "test_network_keras_image_trained.json")
+
+        JsonFile.write(current_file_trained, {"trained": training, "process": self.errors})

@@ -33,6 +33,13 @@ poetry exec test
 ```
 
 ```
+poetry exec test:log
+TRAINING_TEST=run poetry exec test:log tests/training/test_network_xor_training.py
+TRAINING_TEST=run poetry exec test:log tests/training/test_network_keras_image_training.py
+TRAINING_TEST=run poetry exec test:log tests/training/test_network_circle_shape_training.py
+```
+
+```
 poetry exec test:coverage
 ```
 

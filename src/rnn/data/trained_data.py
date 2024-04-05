@@ -1,17 +1,17 @@
 from dataclasses import dataclass
 
-from numpy import ndarray
+import numpy as np
 
 
 @dataclass
 class TrainedData:
 
-    weights: ndarray
-    bias: ndarray
+    weights: np.ndarray
+    bias: np.ndarray
 
     def __init__(self, weights, bias):
-        self.weights = weights
-        self.bias = bias
+        self.weights = np.array(weights)
+        self.bias = np.array(bias)
 
     def get_values(self):
         return {

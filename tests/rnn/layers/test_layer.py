@@ -18,7 +18,7 @@ class TestLayer(TestCase):
         self.assertRaises(NotImplementedError, self.layer.forward_propagation, None)
 
     def test_should_throws_not_implement_exception_when_method_backward_propagation_is_called(self):
-        self.assertRaises(NotImplementedError, self.layer.backward_propagation, None)
+        self.assertRaises(NotImplementedError, self.layer.backward_propagation, None, None)
 
     def test_should_throws_not_implement_exception_when_method_get_trained_values_is_called(self):
         self.assertRaises(NotImplementedError, self.layer.get_trained_values)

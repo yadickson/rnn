@@ -8,4 +8,5 @@ class MemoryInitializeData(InitializeData):
         self.trained_iterator = iter(tuple(trained_list))
 
     def get_next_trained_data(self) -> TrainedData:
-        return next(self.trained_iterator)
+        trained_data = next(self.trained_iterator)
+        return TrainedData(trained_data.weights, trained_data.bias)

@@ -13,7 +13,7 @@ class ActivationFunctionLayer(Layer):
         self.output = self.function.value(input_data=self.input)
         return self.output
 
-    def backward_propagation(self, output_error):
+    def backward_propagation(self, output_error, learning_rate):
         return self.function.derived(input_data=self.input) * output_error
 
     def get_trained_values(self):

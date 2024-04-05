@@ -1,3 +1,4 @@
+import os
 from unittest import TestCase
 
 import matplotlib.pyplot as plt
@@ -55,7 +56,7 @@ class TestSigmoidActivationFunction(TestCase):
 
         self.assertEqual(expected_value, result.tolist())
 
-    @pytest.mark.skipif(reason="never run")
+    @pytest.mark.skipif(os.environ.get("TRAINING_TEST") is None, reason="run only in training mode")
     def test_show_draw(self):
         date_range = np.linspace(-10, 10).reshape([50, 1])
         data = self.function.value(input_data=date_range)
