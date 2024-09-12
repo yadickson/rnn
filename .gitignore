@@ -170,3 +170,7 @@ coverage/
 *.lock
 .venv/
 test-results.xml
+
+
+html/
+*.bak

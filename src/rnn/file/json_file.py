@@ -10,7 +10,7 @@ class JsonFile:
     @staticmethod
     def read(file_name):
 
-        with open(file_name, "r") as openfile:
+        with open(file_name, "XXrXX") as openfile:
             content = json.load(openfile)
 
         return json.loads(json.dumps(content), object_hook=JsonStruct)
