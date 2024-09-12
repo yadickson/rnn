@@ -6,7 +6,7 @@
 ![tests](https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fgist.githubusercontent.com%2Fyadickson%2F2edc636fc2ff6aff4b056d455f3290be%2Fraw%2Frnn-junit-tests.json)
 ![coverage](https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fgist.githubusercontent.com%2Fyadickson%2F2edc636fc2ff6aff4b056d455f3290be%2Fraw%2Frnn-cobertura-coverage.json)
 
-Required python 3.10 or later
+Required python 3.10
 
 ## Make environment
 
@@ -57,6 +57,8 @@ poetry exec test:coverage
 ```
 
 ## Run mutation test
+
+The mutation test fail with python 3.12
 
 ```bash
 poetry exec test:mutation

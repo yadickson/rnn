@@ -1,6 +1,6 @@
+from abc import ABCMeta, abstractmethod
+
 from rnn.data.trained_data import TrainedData
-from abc import abstractmethod
-from abc import ABCMeta
 
 
 class InitializeData(metaclass=ABCMeta):
