@@ -167,3 +167,4 @@ reports/
 .mutmut*
 .pytest*
 *.lock
+.venv/

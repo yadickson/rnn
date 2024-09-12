@@ -23,7 +23,10 @@ MutPy = "^0.6.1"
 Faker = "^24.4.0"
 isort = '^5.13.2'
 keras = '^3.1.1'
-tensorflow = '^2.16.1'
+ml-dtypes = '0.3.2'
+tensorboard = '2.16.2'
+tensorflow = '2.16.1'
+poetry-exec-plugin = '^0.3.6'
 
 [tool.poetry-exec-plugin.commands]
 format = "black src/ tests/ --line-length=120 --preview && isort src/ tests/"
