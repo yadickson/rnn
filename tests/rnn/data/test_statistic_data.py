@@ -22,11 +22,11 @@ class TestStatisticData(TestCase):
 
     def test_should_return_array_with_one_element_and_greater_that_minus_one(self):
         result = self.generator.create(input_size=1, output_size=1)
-        self.assertGreaterEqual(1, result[0][-1])
+        self.assertGreaterEqual(1, int(result[0][-1]))
 
     def test_should_return_array_with_one_element_and_less_that_one(self):
         result = self.generator.create(input_size=1, output_size=1)
-        self.assertLessEqual(result[0][-1], 1)
+        self.assertLessEqual(int(result[0][-1]), 1)
 
     def test_should_return_array_when_method_create_is_called_with_input_and_output_values(self):
         input_size = faker.generator.random.randint(10, 20)
