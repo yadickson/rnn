@@ -1,13 +1,20 @@
-class Layer:
+from abc import abstractmethod
+from abc import ABCMeta
+
+
+class Layer(metaclass=ABCMeta):
     def __init__(self):
         self.input = None
         self.output = None
 
+    @abstractmethod
     def forward_propagation(self, input_data):
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def backward_propagation(self, output_error, learning_rate):
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def get_trained_values(self):
-        raise NotImplementedError
+        pass

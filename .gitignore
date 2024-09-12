@@ -163,8 +163,10 @@ cython_debug/
 .idea/
 
 reports/
+coverage/
 .coverage
 .mutmut*
 .pytest*
 *.lock
 .venv/
+test-results.xml

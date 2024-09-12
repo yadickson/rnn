@@ -1,14 +1,12 @@
 # rnn
 
-[![codecov](https://codecov.io/gh/yadickson/rnn/graph/badge.svg?token=MXA5STVN07)](https://codecov.io/gh/yadickson/rnn)
+![version](https://img.shields.io/github/package-json/v/yadickson/rnn?style=flat-square)
+![license](https://img.shields.io/github/license/yadickson/rnn?style=flat-square)
+[![build](https://img.shields.io/github/actions/workflow/status/yadickson/rnn/python-app.yml?branch=main&style=flat-square)](https://github.com/yadickson/rnn/actions/workflows/npm-build.yml)
+![tests](https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fgist.githubusercontent.com%2Fyadickson%2F2edc636fc2ff6aff4b056d455f3290be%2Fraw%2Frnn-junit-tests.json)
+![coverage](https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fgist.githubusercontent.com%2Fyadickson%2F2edc636fc2ff6aff4b056d455f3290be%2Fraw%2Frnn-cobertura-coverage.json)
 
-Red neuronal basica con python
-
-## Install python 3.10 on Mac
-
-```bash
-brew install python@3.10
-```
+Required python 3.10 or later
 
 ## Make environment
 
@@ -89,6 +87,6 @@ deactivate
 ```
 
 
-[referencia](https://anderfernandez.com/blog/como-programar-una-red-neuronal-desde-0-en-python/)
+[reference](https://anderfernandez.com/blog/como-programar-una-red-neuronal-desde-0-en-python/)
 
-[referencia](https://towardsdatascience.com/math-neural-network-from-scratch-in-python-d6da9f29ce65)
+[reference](https://towardsdatascience.com/math-neural-network-from-scratch-in-python-d6da9f29ce65)
