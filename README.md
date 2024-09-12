@@ -1,6 +1,6 @@
 # rnn
 
-![version](https://img.shields.io/github/package-json/v/yadickson/rnn?style=flat-square)
+![version](https://img.shields.io/github/v/release/yadickson/rnn?style=flat-square)
 ![license](https://img.shields.io/github/license/yadickson/rnn?style=flat-square)
 [![build](https://img.shields.io/github/actions/workflow/status/yadickson/rnn/python-app.yml?branch=main&style=flat-square)](https://github.com/yadickson/rnn/actions/workflows/python-app.yml)
 ![tests](https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fgist.githubusercontent.com%2Fyadickson%2F2edc636fc2ff6aff4b056d455f3290be%2Fraw%2Frnn-junit-tests.json)
