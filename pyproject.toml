@@ -37,7 +37,7 @@ test = "python -m pytest -o log_cli=true --no-header --junitxml=test-results.xml
 "test:mutation" = "mut.py --target src/ --unit-test tests/ --runner 'pytest' --report-html reports/mutation --show-mutants --colored-output"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core", "setuptools", "wheel"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
