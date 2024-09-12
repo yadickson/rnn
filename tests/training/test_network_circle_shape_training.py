@@ -1,6 +1,6 @@
 import math
 import os
-from typing import List
+from typing import Any, List
 from unittest import TestCase
 
 import matplotlib.pyplot as plt
@@ -11,10 +11,8 @@ from scipy import stats
 from rnn.data.statistic_initialize_data import StatisticInitializeData
 from rnn.data.training_data import TrainingData
 from rnn.file.json_file import JsonFile
-from rnn.functions.hyperbolic_tangent_activation_function import \
-    HyperbolicTangentActivationFunction
-from rnn.functions.mean_squared_error_loss_function import \
-    MeanSquaredErrorLossFunction
+from rnn.functions.hyperbolic_tangent_activation_function import HyperbolicTangentActivationFunction
+from rnn.functions.mean_squared_error_loss_function import MeanSquaredErrorLossFunction
 from rnn.functions.relu_activation_function import ReluActivationFunction
 from rnn.functions.sigmoid_activation_function import SigmoidActivationFunction
 from rnn.layers.activation_function_layer import ActivationFunctionLayer
@@ -23,7 +21,7 @@ from rnn.layers.layer import Layer
 from rnn.network import Network
 
 
-def circle(count=100, Ri=1, Ro=2, min=0, max=1):
+def circle(count: int = 100, Ri: int = 1, Ro: int = 2, min: int = 0, max: int = 1) -> Any:
 
     r = Ri * np.sqrt(stats.truncnorm.rvs(min, max, size=count))
     theta = stats.truncnorm.rvs(min, max, size=count) * 2 * math.pi
@@ -41,16 +39,16 @@ def circle(count=100, Ri=1, Ro=2, min=0, max=1):
 @pytest.mark.skipif(os.environ.get("TRAINING_TEST") is None, reason="run only in training mode")
 class TestNetworkCircleShapeTraining(TestCase):
 
-    count = None
-    X = None
-    Y = None
+    count: int
+    X: Any
+    Y: Any
 
     layers: List[Layer] = []
-    network = None
-    errors = None
+    network: Network
+    errors: Any
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
 
         cls.count = 500
 
@@ -80,7 +78,7 @@ class TestNetworkCircleShapeTraining(TestCase):
         )
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
 
         plt.cla()
         plt.scatter(cls.X[0 : cls.count, 0], cls.X[0 : cls.count, 1], c="b")
@@ -93,7 +91,7 @@ class TestNetworkCircleShapeTraining(TestCase):
         plt.plot(epoch, cls.errors)
         plt.show()
 
-    def test_create_training_file(self):
+    def test_create_training_file(self) -> None:
         training = [trained.get_trained_values() for trained in self.layers if trained.get_trained_values() is not None]
 
         self.assertEqual(3, len(training))

@@ -1,10 +1,12 @@
+from typing import Any
+
 from rnn.data.initialize_data import InitializeData
 from rnn.data.trained_data import TrainedData
 
 
 class MemoryInitializeData(InitializeData):
 
-    def __init__(self, trained_list):
+    def __init__(self, trained_list: Any) -> None:
         self.trained_iterator = iter(tuple(trained_list))
 
     def get_next_trained_data(self) -> TrainedData:

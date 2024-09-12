@@ -4,6 +4,7 @@ version = "1.0.0"
 description = "rnn"
 authors = ["Yadickson Soto <yadickson@gmail.com>"]
 readme = "README.md"
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -30,8 +31,8 @@ poetry-exec-plugin = '^0.3.6'
 mutmut = '^2.5.1'
 
 [tool.poetry-exec-plugin.commands]
-format = "black src/ tests/ --line-length=120 --preview && isort src/ tests/"
-lint = "flake8 src/ tests/ --max-line-length=120 --ignore=E203 && mypy src/ tests/"
+format = "black src/ tests/ --line-length=150 --preview && isort src/ tests/"
+lint = "flake8 src/ tests/ --max-line-length=150 --ignore=E203 && mypy src/ tests/"
 test = "python -m pytest -o log_cli=true --no-header --junitxml=test-results.xml"
 "test:log" = "python -m pytest -s --log-cli-level=INFO"
 "test:coverage" = "python -m pytest --cov-report html:reports/coverage --cov-report lcov:coverage/lcov.info --cov-report xml:coverage/coverage.xml --cov=src"
@@ -47,8 +48,27 @@ addopts = ["--import-mode=importlib"]
 
 [tool.mypy]
 disable_error_code = "import-untyped"
+disallow_untyped_defs = true
+follow_imports = "silent"
+ignore_missing_imports = true
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
 
 [tool.mutmut]
 paths_to_mutate="src"
 tests_dir="tests"
 runner="python -m pytest"
+
+[tool.isort]
+combine_as_imports = "true"
+force_grid_wrap = 0
+include_trailing_comma = "true"
+known_first_party = "src"
+line_length = 150
+multi_line_output = 3
+
+[tool.coverage.report]
+exclude_lines = [
+    "@abstractmethod"
+    ]

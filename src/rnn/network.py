@@ -1,5 +1,5 @@
 import logging
-from typing import List
+from typing import Any, List
 
 import numpy as np
 
@@ -9,11 +9,11 @@ from rnn.functions.loss_function import LossFunction
 
 class Network:
 
-    def __init__(self, layers, loss_function: LossFunction):
+    def __init__(self, layers: List[Any], loss_function: LossFunction) -> None:
         self.layers = layers
         self.loss_function = loss_function
 
-    def process(self, input_data):
+    def process(self, input_data: Any) -> Any:
         output = input_data
 
         for layer in self.layers:
@@ -21,7 +21,7 @@ class Network:
 
         return output
 
-    def training(self, input_training, output_training, learning: List[TrainingData]):
+    def training(self, input_training: Any, output_training: Any, learning: List[TrainingData]) -> Any:
         errors = []
         samples = len(input_training)
 

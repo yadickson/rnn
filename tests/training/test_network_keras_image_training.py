@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import Any, List
 from unittest import TestCase
 
 import matplotlib.pyplot as plt
@@ -10,10 +10,8 @@ from keras.utils import to_categorical
 from rnn.data.statistic_initialize_data import StatisticInitializeData
 from rnn.data.training_data import TrainingData
 from rnn.file.json_file import JsonFile
-from rnn.functions.hyperbolic_tangent_activation_function import \
-    HyperbolicTangentActivationFunction
-from rnn.functions.mean_squared_error_loss_function import \
-    MeanSquaredErrorLossFunction
+from rnn.functions.hyperbolic_tangent_activation_function import HyperbolicTangentActivationFunction
+from rnn.functions.mean_squared_error_loss_function import MeanSquaredErrorLossFunction
 from rnn.layers.activation_function_layer import ActivationFunctionLayer
 from rnn.layers.fully_connected_layer import FullyConnectedLayer
 from rnn.layers.layer import Layer
@@ -25,11 +23,11 @@ class TestNetworkKerasImageTraining(TestCase):
 
     layers: List[Layer] = []
 
-    network = None
-    errors = None
+    network: Network
+    errors: Any
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
 
         # load MNIST from server
         (x_train, y_train), (_, _) = mnist.load_data()
@@ -69,7 +67,7 @@ class TestNetworkKerasImageTraining(TestCase):
         )
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
 
         epoch = list(range(0, len(cls.errors)))
 
@@ -77,7 +75,7 @@ class TestNetworkKerasImageTraining(TestCase):
         plt.plot(epoch, cls.errors)
         plt.show()
 
-    def test_create_training_file(self):
+    def test_create_training_file(self) -> None:
         training = [trained.get_trained_values() for trained in self.layers if trained.get_trained_values() is not None]
 
         self.assertEqual(3, len(training))

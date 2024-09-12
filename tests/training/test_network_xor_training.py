@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import Any, List
 from unittest import TestCase
 
 import matplotlib.pyplot as plt
@@ -8,10 +8,8 @@ import pytest
 from rnn.data.statistic_initialize_data import StatisticInitializeData
 from rnn.data.training_data import TrainingData
 from rnn.file.json_file import JsonFile
-from rnn.functions.hyperbolic_tangent_activation_function import \
-    HyperbolicTangentActivationFunction
-from rnn.functions.mean_squared_error_loss_function import \
-    MeanSquaredErrorLossFunction
+from rnn.functions.hyperbolic_tangent_activation_function import HyperbolicTangentActivationFunction
+from rnn.functions.mean_squared_error_loss_function import MeanSquaredErrorLossFunction
 from rnn.layers.activation_function_layer import ActivationFunctionLayer
 from rnn.layers.fully_connected_layer import FullyConnectedLayer
 from rnn.layers.layer import Layer
@@ -22,11 +20,11 @@ from rnn.network import Network
 class TestNetworkXorTraining(TestCase):
 
     layers: List[Layer] = []
-    network = None
-    errors = None
+    network: Network
+    errors: Any
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         input_training = [[[0, 0]], [[0, 1]], [[1, 0]], [[1, 1]]]
         output_training = [[[0]], [[1]], [[1]], [[0]]]
 
@@ -38,12 +36,10 @@ class TestNetworkXorTraining(TestCase):
         ]
 
         cls.network = Network(layers=cls.layers, loss_function=MeanSquaredErrorLossFunction())
-        cls.errors = cls.network.training(
-            input_training, output_training, [TrainingData(2000, 0.01), TrainingData(1000, 0.001)]
-        )
+        cls.errors = cls.network.training(input_training, output_training, [TrainingData(2000, 0.01), TrainingData(1000, 0.001)])
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
 
         epoch = list(range(0, len(cls.errors)))
 
@@ -51,7 +47,7 @@ class TestNetworkXorTraining(TestCase):
         plt.plot(epoch, cls.errors)
         plt.show()
 
-    def test_create_training_file(self):
+    def test_create_training_file(self) -> None:
         training = [trained.get_trained_values() for trained in self.layers if trained.get_trained_values() is not None]
 
         self.assertEqual(2, len(training))

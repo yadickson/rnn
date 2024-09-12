@@ -10,7 +10,7 @@ from rnn.layers.activation_function_layer import ActivationFunctionLayer
 
 class TestActivationFunctionLayer(TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.faker = Faker()
         self.activation_function_stub = MagicMock(ActivationFunction)
 
@@ -22,37 +22,37 @@ class TestActivationFunctionLayer(TestCase):
 
         self.layer = ActivationFunctionLayer(self.activation_function_stub)
 
-    def test_should_check_input_is_assigned_with_none(self):
+    def test_should_check_input_is_assigned_with_none(self) -> None:
         self.assertEqual(None, self.layer.input)
 
-    def test_should_check_output_is_assigned_with_none(self):
+    def test_should_check_output_is_assigned_with_none(self) -> None:
         self.assertEqual(None, self.layer.output)
 
-    def test_should_check_creation_layer_activation_function_assigned(self):
+    def test_should_check_creation_layer_activation_function_assigned(self) -> None:
         self.assertEqual(self.activation_function_stub, self.layer.function)
 
-    def test_should_check_forward_propagation_input_assigned(self):
+    def test_should_check_forward_propagation_input_assigned(self) -> None:
         input_data = np.random.rand(100, 200)
 
         self.layer.forward_propagation(input_data)
 
         self.assertEqual(self.layer.input.tolist(), input_data.tolist())
 
-    def test_should_check_forward_propagation_output_assigned(self):
+    def test_should_check_forward_propagation_output_assigned(self) -> None:
         input_data = np.random.rand(100, 200)
 
         self.layer.forward_propagation(input_data)
 
         self.assertEqual(self.layer.output.tolist(), self.activation.tolist())
 
-    def test_should_check_forward_propagation_result_value(self):
+    def test_should_check_forward_propagation_result_value(self) -> None:
         input_data = np.random.rand(100, 200)
 
         result = self.layer.forward_propagation(input_data)
 
         self.assertEqual(result.tolist(), self.activation.tolist())
 
-    def test_should_check_forward_propagation_parameters_for_activation_function_method(self):
+    def test_should_check_forward_propagation_parameters_for_activation_function_method(self) -> None:
         input_data = np.random.rand(100, 200)
 
         self.layer.forward_propagation(input_data)
@@ -63,7 +63,7 @@ class TestActivationFunctionLayer(TestCase):
 
         self.assertTrue(calls[0] == ("value", {"input_data": input_data}))
 
-    def test_should_check_backward_propagation_result_value(self):
+    def test_should_check_backward_propagation_result_value(self) -> None:
         output_error = np.random.rand(100, 400)
         input_data = np.random.rand(100, 200)
         learning_rate = np.random.rand(100, 100)
@@ -73,7 +73,7 @@ class TestActivationFunctionLayer(TestCase):
 
         self.assertEqual(result.tolist(), (self.derived.tolist() * output_error).tolist())
 
-    def test_should_check_backward_propagation_parameters_for_activation_function_method(self):
+    def test_should_check_backward_propagation_parameters_for_activation_function_method(self) -> None:
         input_value = np.random.rand(100, 400)
         output_error = np.random.rand(100, 400)
         learning_rate = np.random.rand(100, 300)
@@ -87,7 +87,7 @@ class TestActivationFunctionLayer(TestCase):
 
         self.assertTrue(calls[0] == ("derived", {"input_data": input_value}))
 
-    def test_should_check_input_data_is_not_assigned_when_call_backward_propagation(self):
+    def test_should_check_input_data_is_not_assigned_when_call_backward_propagation(self) -> None:
         output_error = np.random.rand(100, 400)
         learning_rate = np.random.rand(100, 100)
 
@@ -95,7 +95,7 @@ class TestActivationFunctionLayer(TestCase):
 
         self.assertEqual(None, self.layer.input)
 
-    def test_should_check_output_data_is_not_assigned_when_call_backward_propagation(self):
+    def test_should_check_output_data_is_not_assigned_when_call_backward_propagation(self) -> None:
         output_error = np.random.rand(100, 400)
         learning_rate = np.random.rand(100, 100)
 
@@ -103,7 +103,7 @@ class TestActivationFunctionLayer(TestCase):
 
         self.assertEqual(None, self.layer.output)
 
-    def test_should_check_trained_values_none(self):
+    def test_should_check_trained_values_none(self) -> None:
         result = self.layer.get_trained_values()
 
         self.assertEqual(None, result)

@@ -5,7 +5,7 @@ from rnn.data.trained_data import TrainedData
 
 class StatisticInitializeData(InitializeData):
 
-    def __init__(self, input_size, output_size, generator: StatisticData = StatisticData()):
+    def __init__(self, input_size: int, output_size: int, generator: StatisticData = StatisticData()) -> None:
         self.input_size = input_size
         self.output_size = output_size
         self.generator = generator

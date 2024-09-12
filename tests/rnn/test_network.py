@@ -10,7 +10,7 @@ from rnn.network import Network
 
 class TestNetwork(TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.first_layer_stub = MagicMock(Layer)
         self.second_layer_stub = MagicMock(Layer)
 
@@ -26,13 +26,13 @@ class TestNetwork(TestCase):
 
         self.network = Network(self.layers, self.loss_function_stub)
 
-    def test_should_check_layers_are_assigned(self):
+    def test_should_check_layers_are_assigned(self) -> None:
         self.assertEqual(self.layers, self.network.layers)
 
-    def test_should_check_loss_function_is_assigned(self):
+    def test_should_check_loss_function_is_assigned(self) -> None:
         self.assertEqual(self.loss_function_stub, self.network.loss_function)
 
-    def test_should_check_first_layer_forward_propagation(self):
+    def test_should_check_first_layer_forward_propagation(self) -> None:
 
         input_data = np.random.rand(20, 30)
 
@@ -44,7 +44,7 @@ class TestNetwork(TestCase):
 
         self.assertTrue(calls[0] == ("forward_propagation", {"input_data": input_data}))
 
-    def test_should_check_second_layer_forward_propagation(self):
+    def test_should_check_second_layer_forward_propagation(self) -> None:
 
         input_data = np.random.rand(20, 30)
 
@@ -56,6 +56,6 @@ class TestNetwork(TestCase):
 
         self.assertTrue(calls[0] == ("forward_propagation", {"input_data": self.first_forward}))
 
-    def test_should_check_process_response_last_element(self):
+    def test_should_check_process_response_last_element(self) -> None:
         input_data = np.random.rand(20, 30)
         self.assertEqual(self.network.process(input_data), self.second_forward.tolist())
