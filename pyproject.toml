@@ -4,7 +4,7 @@ version = "1.0.0"
 description = "rnn"
 authors = ["Yadickson Soto <yadickson@gmail.com>"]
 readme = "README.md"
-packages = [{include = "src"}]
+packages = [{include = "rnn"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -32,11 +32,11 @@ isort = '^5.13.2'
 poetry-exec-plugin = '^0.3.6'
 
 [tool.poetry-exec-plugin.commands]
-format = "black src/ tests/ --line-length=150 --preview && isort src/ tests/"
-lint = "flake8 src/ tests/ --max-line-length=150 --ignore=E203 && mypy src/ tests/"
+format = "black rnn/ tests/ --line-length=150 --preview && isort rnn/ tests/"
+lint = "flake8 rnn/ tests/ --max-line-length=150 --ignore=E203 && mypy rnn/ tests/"
 test = "python -m pytest -o log_cli=true --no-header --junitxml=test-results.xml"
-"test:coverage" = "python -m pytest --cov-report html:reports/coverage --cov-report lcov:coverage/lcov.info --cov-report xml:coverage/coverage.xml --cov=src"
-"test:mutpy" = "mut.py --target src/ --unit-test tests/ --runner 'pytest' --report-html reports/mutation --show-mutants --colored-output"
+"test:coverage" = "python -m pytest --cov-report html:reports/coverage --cov-report lcov:coverage/lcov.info --cov-report xml:coverage/coverage.xml --cov=rnn"
+"test:mutpy" = "mut.py --target rnn/ --unit-test tests/ --runner 'pytest' --report-html reports/mutation --show-mutants --colored-output"
 "test:mutmut" = "mutmut run && mutmut html"
 
 [build-system]
@@ -56,7 +56,7 @@ warn_return_any = true
 warn_unused_configs = true
 
 [tool.mutmut]
-paths_to_mutate="src"
+paths_to_mutate="rnn"
 tests_dir="tests"
 runner="python -m pytest"
 
@@ -64,7 +64,7 @@ runner="python -m pytest"
 combine_as_imports = "true"
 force_grid_wrap = 0
 include_trailing_comma = "true"
-known_first_party = "src"
+known_first_party = "rnn"
 line_length = 150
 multi_line_output = 3
 
