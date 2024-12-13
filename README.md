@@ -94,7 +94,6 @@ TRAINING_TEST=run poetry exec test:log tests/training/test_network_circle_shape_
 deactivate
 ```
 
-
 [reference](https://anderfernandez.com/blog/como-programar-una-red-neuronal-desde-0-en-python/)
 
 [reference](https://towardsdatascience.com/math-neural-network-from-scratch-in-python-d6da9f29ce65)
